@@ -29,3 +29,20 @@ produtos
     .sort_values(by="vlProduto")
     .head(1))
 # %%
+# Quem teve mais transações de Streak?
+
+transacoes = pd.read_csv("../data/transacoes.csv", sep=";")
+transacao_produto = pd.read_csv("../data/transacao_produto.csv", sep=";")
+produto = pd.read_csv("../data/produto.csv", sep=";")
+
+(transacoes.merge(
+    right=transacao_produto, 
+    how="inner", 
+    left_on=["IdTransacao"], 
+    right_on=["IdTransacao"]
+).groupby(by="IdCliente")["QtdeProduto"]
+    .sum()
+    .sort_values(ascending=False))
+
+
+# %%
